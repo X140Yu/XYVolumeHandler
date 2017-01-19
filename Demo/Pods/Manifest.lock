@@ -1,0 +1,16 @@
+PODS:
+  - XYVolumeHandler (0.0.1)
+
+DEPENDENCIES:
+  - XYVolumeHandler (from `../`)
+
+EXTERNAL SOURCES:
+  XYVolumeHandler:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  XYVolumeHandler: '0986359638d6a7bbe59c16a7035b3a9374944d21'
+
+PODFILE CHECKSUM: 9be747a13651cbee4ecf83e97969e429e5d14950
+
+COCOAPODS: 1.2.0.beta.1
