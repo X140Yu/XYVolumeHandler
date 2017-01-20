@@ -13,7 +13,7 @@
 
 @interface XYVolumeHandler()
 
-@property (nonatomic) BOOL ignoreProtocol;
+@property (nonatomic, readwrite) BOOL ignoreProtocol;
 
 @end
 

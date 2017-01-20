@@ -12,8 +12,10 @@
 @implementation UIViewController (XYVolumeHandler)
 
 - (void)xy_setupVolumeView {
-    if (![self conformsToProtocol:@protocol(XYVolumeHandlerProtocol)]) {
-        return;
+    if (![XYVolumeHandler sharedInstance].ignoreProtocol) {
+        if (![self conformsToProtocol:@protocol(XYVolumeHandlerProtocol)]) {
+            return;
+        }
     }
 
     for (UIView *v in self.view.subviews) {
