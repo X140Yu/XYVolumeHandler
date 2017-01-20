@@ -206,11 +206,11 @@
         self.progress = self.progress;
     };
 
-    [UIView animateWithDuration:duration animations:^{
-        updateBlock();
-    } completion:^(BOOL finished) {
-        updateBlock();
-    }];
+//    [UIView animateWithDuration:duration animations:^{
+//        updateBlock();
+//    } completion:^(BOOL finished) {
+//        updateBlock();
+//    }];
 }
 
 @end
