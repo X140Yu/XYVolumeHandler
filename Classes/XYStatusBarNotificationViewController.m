@@ -34,44 +34,44 @@
 #if __IPHONE_OS_VERSION_MAX_ALLOWED < 90000
 - (NSUInteger)supportedInterfaceOrientations {
 #else
-    - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
 #endif
-        return [[self mainController] supportedInterfaceOrientations];
+    return [[self mainController] supportedInterfaceOrientations];
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    return [[self mainController] preferredInterfaceOrientationForPresentation];
+}
+
+static BOOL XYUIViewControllerBasedStatusBarAppearanceEnabled() {
+    static BOOL enabled = NO;
+    static dispatch_once_t onceToken;
+
+    dispatch_once(&onceToken, ^{
+        enabled = [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"UIViewControllerBasedStatusBarAppearance"] boolValue];
+    });
+
+    return enabled;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    if(XYUIViewControllerBasedStatusBarAppearanceEnabled()) {
+        return [[self mainController] preferredStatusBarStyle];
     }
 
-    - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-        return [[self mainController] preferredInterfaceOrientationForPresentation];
+    return [[UIApplication sharedApplication] statusBarStyle];
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return NO;
+}
+
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
+    if(XYUIViewControllerBasedStatusBarAppearanceEnabled()) {
+        return [[self mainController] preferredStatusBarUpdateAnimation];
     }
+    return [super preferredStatusBarUpdateAnimation];
+}
 
-    static BOOL JDUIViewControllerBasedStatusBarAppearanceEnabled() {
-        static BOOL enabled = NO;
-        static dispatch_once_t onceToken;
-
-        dispatch_once(&onceToken, ^{
-            enabled = [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"UIViewControllerBasedStatusBarAppearance"] boolValue];
-        });
-
-        return enabled;
-    }
-
-    - (UIStatusBarStyle)preferredStatusBarStyle {
-        if(JDUIViewControllerBasedStatusBarAppearanceEnabled()) {
-            return [[self mainController] preferredStatusBarStyle];
-        }
-
-        return [[UIApplication sharedApplication] statusBarStyle];
-    }
-
-    - (BOOL)prefersStatusBarHidden {
-        return NO;
-    }
-
-    - (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
-        if(JDUIViewControllerBasedStatusBarAppearanceEnabled()) {
-            return [[self mainController] preferredStatusBarUpdateAnimation];
-        }
-        return [super preferredStatusBarUpdateAnimation];
-    }
-    
-    @end
+@end
 

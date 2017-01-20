@@ -21,8 +21,12 @@
 + (nonnull instancetype)sharedInstance;
 
 @property (nonnull, nonatomic) UIColor *notificationBackgroundColor;
-@property (nonnull, nonatomic) UIColor *progressViewTintColor;
+@property (nonnull, nonatomic) UIColor *progressViewProgressTintColor;
+@property (nonnull, nonatomic) UIColor *progressViewTrackTintColor;
+@property (nonatomic) CGFloat progressViewLeftMargin;
 @property (nonatomic) NSTimeInterval dismissTimeInterval;
+
+- (void)startMonitor:(BOOL)ignoreProtocol;
 
 - (void)startMonitor;
 

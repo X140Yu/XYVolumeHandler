@@ -11,6 +11,12 @@
 
 #import "XYStatusBarNotification.h"
 
+@interface XYVolumeHandler()
+
+@property (nonatomic) BOOL ignoreProtocol;
+
+@end
+
 @implementation XYVolumeHandler
 
 + (instancetype)sharedInstance {
@@ -20,7 +26,9 @@
     dispatch_once(&onceToken, ^{
         sharedInstance = [[self alloc] init];
         sharedInstance.notificationBackgroundColor = [UIColor whiteColor];
-        sharedInstance.progressViewTintColor = [UIColor blackColor];
+        sharedInstance.progressViewProgressTintColor = [UIColor blackColor];
+        sharedInstance.progressViewTrackTintColor = [UIColor grayColor];
+        sharedInstance.progressViewLeftMargin = 5.0;
         sharedInstance.dismissTimeInterval = 2.0;
     });
 
@@ -36,7 +44,13 @@
     [self registerNotification];
 }
 
+- (void)startMonitor:(BOOL)ignoreProtocol {
+    [self startMonitor];
+    self.ignoreProtocol = YES;
+}
+
 - (void)endMonitor {
+    self.ignoreProtocol = NO;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
 }
@@ -51,6 +65,11 @@
 - (void)volumeChanged:(NSNotification *)notification {
 
     float volume = [[notification userInfo][@"AVSystemController_AudioVolumeNotificationParameter"] floatValue];
+
+    if (self.ignoreProtocol) {
+        [XYStatusBarNotification showProgress:volume];
+        return;
+    }
 
     UIViewController *vc = [XYVolumeHandler topViewController];
     if ([vc isKindOfClass:[UINavigationController class]]) {

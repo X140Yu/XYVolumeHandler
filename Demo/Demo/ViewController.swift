@@ -14,7 +14,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        XYVolumeHandler.sharedInstance().startMonitor()
+        XYVolumeHandler.sharedInstance().startMonitor(true)
         self.xy_setupVolumeView()
     }
 }

@@ -6,8 +6,6 @@
 //  Copyright © 2017 X140Yu. All rights reserved.
 //
 
-#import <QuartzCore/QuartzCore.h>
-#import <MediaPlayer/MediaPlayer.h>
 #import "XYStatusBarNotification.h"
 #import "UIApplication+XYVolumeHandler.h"
 #import "XYStatusBarNotificationViewController.h"
@@ -139,9 +137,11 @@
     _progress = (CGFloat)MIN(1.0, MAX(0.0,progress));
 
     _progressView.frame = self.topBar.bounds;
-    _progressView.frame = CGRectMake(self.topBar.bounds.origin.x, self.topBar.bounds.origin.y + 8, self.topBar.bounds.size.width, self.topBar.bounds.size.height);
+    CGFloat leftMargin = [XYVolumeHandler sharedInstance].progressViewLeftMargin;
+    _progressView.frame = CGRectMake(self.topBar.bounds.origin.x + leftMargin, self.topBar.bounds.origin.y + 8, self.topBar.bounds.size.width - leftMargin * 2, self.topBar.bounds.size.height);
 
-    self.progressView.progressTintColor = [XYVolumeHandler sharedInstance].progressViewTintColor;
+    self.progressView.progressTintColor = [XYVolumeHandler sharedInstance].progressViewProgressTintColor;
+    self.progressView.trackTintColor = [XYVolumeHandler sharedInstance].progressViewTrackTintColor;
     self.progressView.progress = progress;
 }
 
