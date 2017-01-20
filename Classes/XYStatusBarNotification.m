@@ -197,14 +197,14 @@
 }
 
 - (void)willChangeStatusBarFrame:(NSNotification*)notification {
-    CGRect newBarFrame = [notification.userInfo[UIApplicationStatusBarFrameUserInfoKey] CGRectValue];
-    NSTimeInterval duration = [[UIApplication sharedApplication] statusBarOrientationAnimationDuration];
-
-    void(^updateBlock)() = ^{
-        [self updateWindowTransform];
-        [self updateTopBarFrameWithStatusBarFrame:newBarFrame];
-        self.progress = self.progress;
-    };
+//    CGRect newBarFrame = [notification.userInfo[UIApplicationStatusBarFrameUserInfoKey] CGRectValue];
+//    NSTimeInterval duration = [[UIApplication sharedApplication] statusBarOrientationAnimationDuration];
+//
+//    void(^updateBlock)() = ^{
+//        [self updateWindowTransform];
+//        [self updateTopBarFrameWithStatusBarFrame:newBarFrame];
+//        self.progress = self.progress;
+//    };
 
 //    [UIView animateWithDuration:duration animations:^{
 //        updateBlock();
