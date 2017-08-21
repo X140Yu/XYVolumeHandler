@@ -1,6 +1,7 @@
 #import "XYVolumeHandler.h"
 #import <AVFoundation/AVFoundation.h>
 #import "XYVolumeView.h"
+#import "XYDelayPerformer.h"
 
 @import ReactiveObjC;
 @import CWStatusBarNotification;
@@ -11,7 +12,7 @@
 
 @property (nonatomic) CWStatusBarNotification *noti;
 
-@property (nonatomic) ZHDelayPerformer *delayPerformer;
+@property (nonatomic) XYDelayPerformer *delayPerformer;
 
 @end
 
@@ -96,9 +97,9 @@
     return _volumeView;
 }
 
-- (ZHDelayPerformer *)delayPerformer {
+- (XYDelayPerformer *)delayPerformer {
     if (!_delayPerformer) {
-        _delayPerformer = [ZHDelayPerformer new];
+        _delayPerformer = [XYDelayPerformer new];
     }
     return _delayPerformer;
 }
