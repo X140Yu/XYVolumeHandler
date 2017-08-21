@@ -1,11 +1,3 @@
-//
-//  XYVolumeView.m
-//  Test
-//
-//  Created by X140Yu on 1/18/17.
-//  Copyright © 2017 X140Yu. All rights reserved.
-//
-
 #import "XYVolumeHandler.h"
 #import "XYVolumeView.h"
 

@@ -1,11 +1,3 @@
-//
-//  UIViewController+XYVolumeHandler.m
-//  Test
-//
-//  Created by X140Yu on 1/19/17.
-//  Copyright © 2017 X140Yu. All rights reserved.
-//
-
 #import "UIViewController+XYVolumeHandler.h"
 #import "XYVolumeHandler.h"
 

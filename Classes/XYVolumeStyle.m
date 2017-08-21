@@ -1,10 +1,3 @@
-//
-//  XYVolumeStyle.m
-//  ZHModuleVolumeHandler
-//
-//  Created by X140Yu on 17/8/2017.
-//
-
 #import "XYVolumeStyle.h"
 
 @implementation XYVolumeStyle

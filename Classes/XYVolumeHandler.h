@@ -1,11 +1,3 @@
-//
-//  XYVolumeHandler.h
-//  Test
-//
-//  Created by X140Yu on 1/18/17.
-//  Copyright © 2017 X140Yu. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import "UIViewController+XYVolumeHandler.h"
@@ -23,7 +15,7 @@
 + (nonnull instancetype)sharedInstance;
 
 /// 设置 default style
-@property (nonatomic, nonnull) XYVolumeStyle *volumeStyle;
+@property(nonatomic, nonnull) XYVolumeStyle *volumeStyle;
 
 /// 开始监听音量变化的通知
 - (void)startMonitor;
