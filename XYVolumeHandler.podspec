@@ -12,5 +12,7 @@ Pod::Spec.new do |s|
 
   s.source       = { :git => "https://github.com/X140Yu/XYVolumeHandler.git", :tag => "#{s.version}" }
   s.source_files  = "Classes/*.{h,m}"
+  
+  s.dependency 'CWStatusBarNotification'
 
 end

@@ -8,12 +8,21 @@
 
 #import "XYVolumeHandler.h"
 #import <AVFoundation/AVFoundation.h>
+#import "XYVolumeView.h"
 
-#import "XYStatusBarNotification.h"
+@import ReactiveObjC;
+@import ZHBasicCategory;
+@import ZHBasicUtility;
+@import ZHCoreViewController;
+@import CWStatusBarNotification;
 
 @interface XYVolumeHandler()
 
-@property (nonatomic, readwrite) BOOL ignoreProtocol;
+@property (nonatomic) XYVolumeView *volumeView;
+
+@property (nonatomic) CWStatusBarNotification *noti;
+
+@property (nonatomic) ZHDelayPerformer *delayPerformer;
 
 @end
 
@@ -25,11 +34,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedInstance = [[self alloc] init];
-        sharedInstance.notificationBackgroundColor = [UIColor whiteColor];
-        sharedInstance.progressViewProgressTintColor = [UIColor blackColor];
-        sharedInstance.progressViewTrackTintColor = [UIColor grayColor];
-        sharedInstance.progressViewLeftMargin = 5.0;
-        sharedInstance.dismissTimeInterval = 2.0;
+        sharedInstance.volumeStyle = [XYVolumeStyle defaultStyle];
     });
 
     return sharedInstance;
@@ -40,62 +45,73 @@
 }
 
 - (void)startMonitor {
-    [[AVAudioSession sharedInstance] setActive:YES error:nil];
+    [self endMonitor];
     [self registerNotification];
 }
 
-- (void)startMonitor:(BOOL)ignoreProtocol {
-    [self startMonitor];
-    self.ignoreProtocol = YES;
-}
-
 - (void)endMonitor {
-    self.ignoreProtocol = NO;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
 }
 
 - (void)registerNotification {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(volumeChanged:) name:@"AVSystemController_SystemVolumeDidChangeNotification"
                                                object:nil];
-    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
 }
 
 - (void)volumeChanged:(NSNotification *)notification {
 
-    float volume = [[notification userInfo][@"AVSystemController_AudioVolumeNotificationParameter"] floatValue];
-
-    if (self.ignoreProtocol) {
-        [XYStatusBarNotification showProgress:volume];
+    NSString *parameter = notification.userInfo[@"AVSystemController_AudioCategoryNotificationParameter"];
+    if ([parameter isEqualToString:@"Ringtone"]) {
         return;
     }
 
-    UIViewController *vc = [XYVolumeHandler topViewController];
-    if ([vc isKindOfClass:[UINavigationController class]]) {
-        vc = ((UINavigationController *)vc).topViewController;
-    }
-    if (vc && [vc conformsToProtocol:@protocol(XYVolumeHandlerProtocol)]) {
-        id<XYVolumeHandlerProtocol> protocolVC = (id<XYVolumeHandlerProtocol>)vc;
-        if ([vc respondsToSelector:@selector(needShowVolumeHandlerNotification)]) {
-            BOOL needShow = [protocolVC needShowVolumeHandlerNotification];
+    float volume = [[notification userInfo][@"AVSystemController_AudioVolumeNotificationParameter"] floatValue];
 
-            if (needShow) {
-                [XYStatusBarNotification showProgress:volume];
-            }
-        }
+    /// 会先一直向上找到最顶部的，再向下找到第一个符合协议的，找不到会返回默认样式
+    UIViewController *toppestViewController = [[UIApplication sharedApplication].keyWindow.rootViewController xy_toppestViewController];
+    [toppestViewController xy_setupVolumeView];
+    XYVolumeStyle *style = [toppestViewController xy_topMostStyle];
+
+    if (!self.volumeView.superview) {
+        [self.noti displayNotificationWithView:self.volumeView completion:nil];
     }
+
+    @weakify(self);
+    [self.delayPerformer delayPerform:^{
+        @strongify(self);
+        [self.noti dismissNotificationWithCompletion:^{
+            @strongify(self);
+            [self.volumeView removeFromSuperview];
+        }];
+    } delay:2];
+
+    [self.volumeView updateProgress:volume style:style];
 }
 
-+ (UIViewController *)topViewController {
-    UIViewController *rootVC = [[UIApplication sharedApplication].delegate window].rootViewController;
-    while (rootVC.presentedViewController &&
-           ![rootVC.presentedViewController isMovingFromParentViewController] &&
-           ![rootVC.presentedViewController isBeingDismissed])
-    {
-        rootVC = rootVC.presentedViewController;
+- (CWStatusBarNotification *)noti {
+    if (!_noti) {
+        _noti = [[CWStatusBarNotification alloc] init];
+        _noti.notificationAnimationType = CWNotificationAnimationTypeOverlay;
+        _noti.notificationAnimationInStyle = CWNotificationAnimationStyleTop;
+        _noti.notificationAnimationOutStyle = CWNotificationAnimationStyleTop;
     }
-    return rootVC;
+    return _noti;
+}
+
+- (XYVolumeView *)volumeView {
+    if (!_volumeView) {
+        _volumeView = [XYVolumeView viewWithVolume:0 style:self.volumeStyle];
+    }
+    return _volumeView;
+}
+
+- (ZHDelayPerformer *)delayPerformer {
+    if (!_delayPerformer) {
+        _delayPerformer = [ZHDelayPerformer new];
+    }
+    return _delayPerformer;
 }
 
 @end

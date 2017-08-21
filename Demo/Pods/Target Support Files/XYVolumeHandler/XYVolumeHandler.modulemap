@@ -1,6 +1,0 @@
-framework module XYVolumeHandler {
-  umbrella header "XYVolumeHandler-umbrella.h"
-
-  export *
-  module * { export * }
-}

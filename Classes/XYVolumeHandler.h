@@ -9,10 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import "UIViewController+XYVolumeHandler.h"
+#import "XYVolumeStyle.h"
 
-@protocol XYVolumeHandlerProtocol <NSObject>
+/// 如果你想要自定义音量调节 bar 的样式，请在对应的 ViewController 中实现该协议方法
+@protocol XYVolumeHandlerCustomizable
 
-- (BOOL)needShowVolumeHandlerNotification;
+- (nonnull XYVolumeStyle *)volumeStyle;
 
 @end
 
@@ -20,17 +22,13 @@
 
 + (nonnull instancetype)sharedInstance;
 
-@property (nonnull, nonatomic) UIColor *notificationBackgroundColor;
-@property (nonnull, nonatomic) UIColor *progressViewProgressTintColor;
-@property (nonnull, nonatomic) UIColor *progressViewTrackTintColor;
-@property (nonatomic) CGFloat progressViewLeftMargin;
-@property (nonatomic) NSTimeInterval dismissTimeInterval;
-@property (nonatomic, readonly) BOOL ignoreProtocol;
+/// 设置 default style
+@property (nonatomic, nonnull) XYVolumeStyle *volumeStyle;
 
-- (void)startMonitor:(BOOL)ignoreProtocol;
-
+/// 开始监听音量变化的通知
 - (void)startMonitor;
 
+/// 关闭监听音量变化的通知
 - (void)endMonitor;
 
 @end
