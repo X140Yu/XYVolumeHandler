@@ -44,5 +44,6 @@ now, you are ready to be handled
 [JDStatusBarNotification](https://github.com/calimarkus/JDStatusBarNotification)
 
 # Licence
+
 MIT
 
