@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "XYVolumeHandler"
-  s.version      = "0.1.0"
+  s.version      = "0.1.1"
   s.summary      = "Graceful handle the volume changes in your iOS apps like Instagram."
   s.description  = "Graceful handle the volume changes in your iOS apps like Instagram. YEAH!"
   s.homepage     = "https://github.com/X140Yu/XYVolumeHandler"
