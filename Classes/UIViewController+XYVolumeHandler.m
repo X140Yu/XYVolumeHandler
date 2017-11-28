@@ -1,9 +1,10 @@
+
 #import "UIViewController+XYVolumeHandler.h"
 #import "XYVolumeHandler.h"
 
 @implementation UIViewController (XYVolumeHandler)
 
-- (void)xy_setupVolumeView {
+- (void)xy_addVolumeViewIfNeeded {
 
     for (UIView *v in self.view.subviews) {
         if ([v isKindOfClass:[MPVolumeView class]]) {
@@ -12,7 +13,10 @@
     }
 
     MPVolumeView *volumeView = [[MPVolumeView alloc] initWithFrame:CGRectMake(-100, -100, 100, 100)];
+    volumeView.clipsToBounds = YES;
+    volumeView.showsRouteButton = NO;
     [self.view addSubview:volumeView];
+    [[XYVolumeHandler sharedInstance] appendAddVolumeViewViewController:self];
 }
 
 - (XYVolumeStyle *)xy_topMostStyle {
@@ -47,6 +51,25 @@
         }
     }
     return self;
+}
+
+- (BOOL)xy_shouldShowSystemVolumeStyle {
+    if ([self conformsToProtocol:@protocol(XYVolumeHandlerCustomizable)] &&
+        [self respondsToSelector:@selector(useSystemVolumeView)]) {
+        UIViewController<XYVolumeHandlerCustomizable> *protocolVC = (UIViewController<XYVolumeHandlerCustomizable> *)self;
+        return [protocolVC useSystemVolumeView];
+    }
+
+    return NO;
+}
+
+- (void)xy_removeVolumeViewIfNeeded {
+    for (UIView *v in self.view.subviews) {
+        if ([v isKindOfClass:MPVolumeView.class]) {
+            [v removeFromSuperview];
+            break;
+        }
+    }
 }
 
 @end

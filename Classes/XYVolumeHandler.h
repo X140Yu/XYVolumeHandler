@@ -1,3 +1,4 @@
+
 #import <Foundation/Foundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import "UIViewController+XYVolumeHandler.h"
@@ -5,6 +6,10 @@
 
 /// 如果你想要自定义音量调节 bar 的样式，请在对应的 ViewController 中实现该协议方法
 @protocol XYVolumeHandlerCustomizable
+
+@optional
+
+- (BOOL)useSystemVolumeView;
 
 - (nonnull XYVolumeStyle *)volumeStyle;
 
@@ -22,5 +27,7 @@
 
 /// 关闭监听音量变化的通知
 - (void)endMonitor;
+
+- (void)appendAddVolumeViewViewController:(nonnull UIViewController *)vc;
 
 @end
