@@ -1,10 +1,8 @@
-
 #import "XYVolumeHandler.h"
 #import <AVFoundation/AVFoundation.h>
 #import "XYVolumeView.h"
 #import "XYDelayPerformer.h"
 
-@import ReactiveObjC;
 @import CWStatusBarNotification;
 
 @interface XYVolumeHandler()
@@ -78,12 +76,11 @@
         [self.noti displayNotificationWithView:self.volumeView completion:nil];
     }
 
-    @weakify(self);
+    __weak __typeof__(self) weakSelf = self;
     [self.delayPerformer delayPerform:^{
-        @strongify(self);
         [self.noti dismissNotificationWithCompletion:^{
-            @strongify(self);
-            [self.volumeView removeFromSuperview];
+            __typeof__(self) strongSelf = weakSelf;
+            [strongSelf.volumeView removeFromSuperview];
         }];
     } delay:2];
 

@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "XYVolumeHandler"
-  s.version      = "0.1.1"
+  s.version      = "0.1.2"
   s.summary      = "Graceful handle the volume changes in your iOS apps like Instagram."
   s.description  = "Graceful handle the volume changes in your iOS apps like Instagram. YEAH!"
   s.homepage     = "https://github.com/X140Yu/XYVolumeHandler"
@@ -12,8 +12,7 @@ Pod::Spec.new do |s|
 
   s.source       = { :git => "https://github.com/X140Yu/XYVolumeHandler.git", :tag => "#{s.version}" }
   s.source_files  = "Classes/*.{h,m}"
-  
-  s.dependency 'ReactiveObjC'
+
   s.dependency 'CWStatusBarNotification'
 
 end
