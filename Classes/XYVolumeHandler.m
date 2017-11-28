@@ -118,9 +118,9 @@
     return _volumeView;
 }
 
-- (ZHDelayPerformer *)delayPerformer {
+- (XYDelayPerformer *)delayPerformer {
     if (!_delayPerformer) {
-        _delayPerformer = [ZHDelayPerformer new];
+        _delayPerformer = [XYDelayPerformer new];
     }
     return _delayPerformer;
 }
