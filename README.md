@@ -1,9 +1,6 @@
 # XYVolumeHandler
 🎶 Graceful handle the volume changes in your iOS apps like Instagram.
 
-# Screenshot
-![](images/Screenshot.gif)
-
 # Requirement
 iOS 8+, Objective-C And Swift
 
@@ -26,22 +23,22 @@ override func viewDidLoad() {
    self.xy_setupVolumeView()
 }
 ```
+now, you are ready to be handled.
 
-and conform the protocol,
+If you want to do addition customizable things,
 
 ```swift
- extension ViewController: XYVolumeHandlerProtocol {
-    func needShowVolumeHandlerNotification() -> Bool {
+extension ViewController: XYVolumeHandlerCustomizable {
+    // it you wish to disable the handler in certain viewController
+    func useSystemVolumeView() -> Bool {
         return true
+    }
+
+    func volumeStyle() -> XYVolumeStyle {
+        // return a different style than default style
     }
 }
 ```
-
-now, you are ready to be handled
-
-# Credits
-
-[JDStatusBarNotification](https://github.com/calimarkus/JDStatusBarNotification)
 
 # Licence
 
