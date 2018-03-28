@@ -1,4 +1,8 @@
 # XYVolumeHandler
+
+[![Build Status](https://travis-ci.org/X140Yu/XYVolumeHandler.svg?branch=master)](https://travis-ci.org/X140Yu/XYVolumeHandler)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 🎶 Graceful handle the volume changes in your iOS apps like Instagram.
 
 # Requirement
