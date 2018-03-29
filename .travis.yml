@@ -1,5 +1,7 @@
-osx_image: xcode9
-language: swift
+osx_image: xcode9.2
+language: objective-c
 xcode_workspace: Example/Example.xcworkspace
 xcode_scheme: Example
 podfile: Example/Podfile
+script:
+  - xcodebuild -workspace Example/Example.xcworkspace -scheme Example | xcpretty
