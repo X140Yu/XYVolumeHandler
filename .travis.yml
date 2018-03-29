@@ -4,4 +4,4 @@ xcode_workspace: Example/Example.xcworkspace
 xcode_scheme: Example
 podfile: Example/Podfile
 script:
-  - set -o pipe fail && xcodebuild -workspace Example/Example.xcworkspace -scheme Example | xcpretty
+  - set -o pipefail && xcodebuild -workspace Example/Example.xcworkspace -scheme Example | xcpretty
