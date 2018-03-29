@@ -7,7 +7,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface XYDelayPerformer : NSObject
 
 /// 默认 0.3s
-@property(nonatomic) NSTimeIntervals delayTimeIntervel;
+@property(nonatomic) NSTimeInterval delayTimeIntervel;
 
 - (void)delayPerform:(XYVoidBlock)action;
 - (void)delayPerform:(XYVoidBlock)action delay:(NSTimeInterval)delay;
